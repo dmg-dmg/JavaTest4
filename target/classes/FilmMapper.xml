@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hand.infra.mapper.FilmMapper">
+    <resultMap id="findByName" type="com.hand.domain.entity.Film">
+        <result property="film_id" column="film_id"></result>
+        <result property="title" column="title"></result>
+        <collection property="actors" ofType="com.hand.domain.entity.Actor">
+            <result property="actor_id" column="actor_id"></result>
+            <result property="first_name" column="first_name"></result>
+            <result property="last_name" column="last_name"></result>
+        </collection>
+    </resultMap>
+    <select id="findByName" parameterType="String" resultMap="findByName">
+        SELECT  f.film_id,f.title,a.actor_id,a.first_name,a.last_name
+        FROM film_actor fa,film f,actor a
+        WHERE f.title =#{0} AND f.film_id=fa.film_id AND a.actor_id=fa.actor_id
+    </select>
+</mapper>
